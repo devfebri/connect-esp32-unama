@@ -42,7 +42,7 @@ class SensorReadingController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'kelembaban_tanah_1' => ['nullable', 'numeric'],
+            'kelembaban_tanah_1' => ['nullable', 'text'],
             'kelembaban_tanah_2' => ['nullable', 'numeric'],
             'kelembaban_tanah_3' => ['nullable', 'numeric'],
             'suhu_udara_1' => ['nullable', 'numeric'],

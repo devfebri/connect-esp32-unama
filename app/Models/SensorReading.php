@@ -21,24 +21,4 @@ class SensorReading extends Model
         'tekanan_udara_3',
         'curah_hujan',
     ];
-
-    protected $casts = [
-        'kelembaban_tanah_1' => 'float',
-        'kelembaban_tanah_2' => 'float',
-        'kelembaban_tanah_3' => 'float',
-        'suhu_udara_1' => 'float',
-        'suhu_udara_2' => 'float',
-        'suhu_udara_3' => 'float',
-        'kelembaban_udara_1' => 'float',
-        'kelembaban_udara_2' => 'float',
-        'kelembaban_udara_3' => 'float',
-        'tekanan_udara_1' => 'float',
-        'tekanan_udara_2' => 'float',
-        'tekanan_udara_3' => 'float',
-        'curah_hujan' => 'float',
-        'soil_moisture' => 'integer',
-        'air_humidity' => 'float',
-        'air_pressure' => 'float',
-        'rainfall' => 'float',
-    ];
 }
