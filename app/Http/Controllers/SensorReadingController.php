@@ -19,7 +19,7 @@ class SensorReadingController extends Controller
 
     public function store(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
         $data = $request->validate([
             'temperature' => ['nullable', 'numeric'],
             'soil_temperature' => ['nullable', 'numeric'],
