@@ -36,38 +36,48 @@ class SensorReadingController extends Controller
 
         $perPage = min((int) $request->get('per_page', 25), 100);
 
-        return $query->paginate($perPage)->through(fn($r) => $r);
+        $paginator = $query->paginate($perPage);
+
+        return response()->json([
+            'data' => $paginator->items(),
+            'meta' => [
+                'current_page' => $paginator->currentPage(),
+                'last_page' => $paginator->lastPage(),
+                'per_page' => $paginator->perPage(),
+                'total' => $paginator->total(),
+            ],
+        ]);
     }
 
     public function store(Request $request)
     {
         $data = $request->validate([
-            'kelembaban_tanah_1' => ['nullable', 'numeric'],
             'sensor_tanah_adc_1' => ['nullable', 'numeric'],
-            'kelembaban_tanah_2' => ['nullable', 'numeric'],
+            'kelembaban_tanah_1' => ['nullable', 'numeric'],
             'sensor_tanah_adc_2' => ['nullable', 'numeric'],
-            'kelembaban_tanah_3' => ['nullable', 'numeric'],
+            'kelembaban_tanah_2' => ['nullable', 'numeric'],
             'sensor_tanah_adc_3' => ['nullable', 'numeric'],
-            'suhu_udara_1' => ['nullable', 'numeric'],
-            'suhu_udara_2' => ['nullable', 'numeric'],
-            'suhu_udara_3' => ['nullable', 'numeric'],
+            'kelembaban_tanah_3' => ['nullable', 'numeric'],
             'kelembaban_udara_1' => ['nullable', 'numeric'],
             'kelembaban_udara_2' => ['nullable', 'numeric'],
             'kelembaban_udara_3' => ['nullable', 'numeric'],
+            'suhu_udara_1' => ['nullable', 'numeric'],
+            'suhu_udara_2' => ['nullable', 'numeric'],
+            'suhu_udara_3' => ['nullable', 'numeric'],
             'tekanan_udara_1' => ['nullable', 'numeric'],
             'tekanan_udara_2' => ['nullable', 'numeric'],
             'tekanan_udara_3' => ['nullable', 'numeric'],
             'curah_hujan' => ['nullable', 'numeric'],
         ]);
 
-        if (empty(array_filter($data, fn($value) => ! is_null($value)))) {
+        if (empty(array_filter($data, fn ($value) => ! is_null($value)))) {
             return response()->json([
                 'success' => false,
                 'message' => 'Payload must include at least one sensor value.',
             ], 422);
         }
 
-        $reading = SensorReading::create($data);
+        SensorReading::create($data);
 
         return response()->json([
             'success' => true,

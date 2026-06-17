@@ -410,35 +410,31 @@
                 <table id="report-table">
                     <thead>
                         <tr>
-                            <th class="td-no" data-sort="">#</th>
-                            <th data-sort="created_at" class="sort-desc">
-                                Waktu <i class="bi bi-arrow-down sort-icon"></i>
-                            </th>
-                            <th data-sort="soil_moisture" style="color:var(--green)">
-                                <i class="bi bi-moisture" style="margin-right:.3rem"></i>Kel. Tanah <i class="bi bi-arrow-down sort-icon"></i>
-                            </th>
-                            <th data-sort="temperature" style="color:var(--blue)">
-                                <i class="bi bi-thermometer-half" style="margin-right:.3rem"></i>Suhu Udara <i class="bi bi-arrow-down sort-icon"></i>
-                            </th>
-                            <th data-sort="air_humidity" style="color:var(--purple)">
-                                <i class="bi bi-droplet-half" style="margin-right:.3rem"></i>Kel. Udara <i class="bi bi-arrow-down sort-icon"></i>
-                            </th>
-                            <th data-sort="air_pressure" style="color:var(--amber)">
-                                <i class="bi bi-speedometer2" style="margin-right:.3rem"></i>Tek. Udara <i class="bi bi-arrow-down sort-icon"></i>
-                            </th>
-                            <th data-sort="rainfall" style="color:var(--cyan)">
-                                <i class="bi bi-cloud-rain-heavy" style="margin-right:.3rem"></i>Curah Hujan <i class="bi bi-arrow-down sort-icon"></i>
-                            </th>
-                            <th data-sort="soil_temperature" style="color:var(--rose)">
-                                <i class="bi bi-thermometer" style="margin-right:.3rem"></i>Suhu Tanah <i class="bi bi-arrow-down sort-icon"></i>
-                            </th>
-                            <th data-sort="battery" style="color:var(--amber)">
-                                <i class="bi bi-battery-half" style="margin-right:.3rem"></i>Baterai <i class="bi bi-arrow-down sort-icon"></i>
-                            </th>
+                            <th class="td-no" data-sort="" rowspan="2">#</th>
+                            <th data-sort="created_at" class="sort-desc" rowspan="2">Waktu <i class="bi bi-arrow-down sort-icon"></i></th>
+                            <th colspan="3" style="color:var(--green);text-align:center"><i class="bi bi-moisture"></i> Kelembaban Tanah (%)</th>
+                            <th colspan="3" style="color:var(--blue);text-align:center"><i class="bi bi-thermometer-half"></i> Suhu Udara (°C)</th>
+                            <th colspan="3" style="color:var(--purple);text-align:center"><i class="bi bi-droplet-half"></i> Kelembaban Udara (%)</th>
+                            <th colspan="3" style="color:var(--amber);text-align:center"><i class="bi bi-speedometer2"></i> Tekanan Udara (hPa)</th>
+                            <th rowspan="2" style="color:var(--cyan)"><i class="bi bi-cloud-rain-heavy"></i> Curah Hujan<br><small>(mm)</small></th>
+                        </tr>
+                        <tr>
+                            <th data-sort="kelembaban_tanah_1" style="color:var(--green)">Alat 1 <i class="bi bi-arrow-down sort-icon"></i></th>
+                            <th data-sort="kelembaban_tanah_2" style="color:var(--green)">Alat 2 <i class="bi bi-arrow-down sort-icon"></i></th>
+                            <th data-sort="kelembaban_tanah_3" style="color:var(--green)">Alat 3 <i class="bi bi-arrow-down sort-icon"></i></th>
+                            <th data-sort="suhu_udara_1" style="color:var(--blue)">Alat 1 <i class="bi bi-arrow-down sort-icon"></i></th>
+                            <th data-sort="suhu_udara_2" style="color:var(--blue)">Alat 2 <i class="bi bi-arrow-down sort-icon"></i></th>
+                            <th data-sort="suhu_udara_3" style="color:var(--blue)">Alat 3 <i class="bi bi-arrow-down sort-icon"></i></th>
+                            <th data-sort="kelembaban_udara_1" style="color:var(--purple)">Alat 1 <i class="bi bi-arrow-down sort-icon"></i></th>
+                            <th data-sort="kelembaban_udara_2" style="color:var(--purple)">Alat 2 <i class="bi bi-arrow-down sort-icon"></i></th>
+                            <th data-sort="kelembaban_udara_3" style="color:var(--purple)">Alat 3 <i class="bi bi-arrow-down sort-icon"></i></th>
+                            <th data-sort="tekanan_udara_1" style="color:var(--amber)">Alat 1 <i class="bi bi-arrow-down sort-icon"></i></th>
+                            <th data-sort="tekanan_udara_2" style="color:var(--amber)">Alat 2 <i class="bi bi-arrow-down sort-icon"></i></th>
+                            <th data-sort="tekanan_udara_3" style="color:var(--amber)">Alat 3 <i class="bi bi-arrow-down sort-icon"></i></th>
                         </tr>
                     </thead>
                     <tbody id="report-body">
-                        <tr><td colspan="9"><div class="state-box">
+                        <tr><td colspan="15"><div class="state-box">
                             <div class="state-icon">⏳</div>
                             <div class="state-title">Memuat data…</div>
                         </div></td></tr>
@@ -512,7 +508,7 @@
             const body = document.getElementById('report-body');
             let rows = '';
             for (let i = 0; i < n; i++) {
-                rows += `<tr>` + Array(9).fill(`<td><div class="shimmer"></div></td>`).join('') + `</tr>`;
+                rows += `<tr>` + Array(15).fill(`<td><div class="shimmer"></div></td>`).join('') + `</tr>`;
             }
             body.innerHTML = rows;
         }
@@ -524,7 +520,7 @@
             state.allRows = rows;
 
             if (!rows.length) {
-                body.innerHTML = `<tr><td colspan="9"><div class="state-box">
+                body.innerHTML = `<tr><td colspan="15"><div class="state-box">
                     <div class="state-icon">📭</div>
                     <div class="state-title">Tidak ada data ditemukan</div>
                     <div class="state-sub">Coba ubah filter tanggal atau reset filter</div>
@@ -548,13 +544,19 @@
                 <tr>
                     <td class="td-no">${offset + i + 1}</td>
                     <td class="td-time">${formatDatetime(r.created_at)}</td>
-                    <td>${f(r.soil_moisture,  0, '%',   'val-green')}</td>
-                    <td>${f(r.temperature,    1, '°C',  'val-blue')}</td>
-                    <td>${f(r.air_humidity,   1, '%',   'val-purple')}</td>
-                    <td>${f(r.air_pressure,   1, 'hPa', 'val-amber')}</td>
-                    <td>${f(r.rainfall,       1, 'mm',  'val-cyan')}</td>
-                    <td>${f(r.soil_temperature, 1, '°C', 'val-rose')}</td>
-                    <td>${f(r.battery,        2, 'V',   'val-amber')}</td>
+                    <td>${f(r.kelembaban_tanah_1, 1, '%',   'val-green')}</td>
+                    <td>${f(r.kelembaban_tanah_2, 1, '%',   'val-green')}</td>
+                    <td>${f(r.kelembaban_tanah_3, 1, '%',   'val-green')}</td>
+                    <td>${f(r.suhu_udara_1,       1, '°C',  'val-blue')}</td>
+                    <td>${f(r.suhu_udara_2,       1, '°C',  'val-blue')}</td>
+                    <td>${f(r.suhu_udara_3,       1, '°C',  'val-blue')}</td>
+                    <td>${f(r.kelembaban_udara_1, 1, '%',   'val-purple')}</td>
+                    <td>${f(r.kelembaban_udara_2, 1, '%',   'val-purple')}</td>
+                    <td>${f(r.kelembaban_udara_3, 1, '%',   'val-purple')}</td>
+                    <td>${f(r.tekanan_udara_1,    1, 'hPa', 'val-amber')}</td>
+                    <td>${f(r.tekanan_udara_2,    1, 'hPa', 'val-amber')}</td>
+                    <td>${f(r.tekanan_udara_3,    1, 'hPa', 'val-amber')}</td>
+                    <td>${f(r.curah_hujan,        1, 'mm',  'val-cyan')}</td>
                 </tr>
             `).join('');
 
@@ -567,21 +569,21 @@
            STATS
         ════════════════════════════════ */
         function updateStats(rows) {
-            const avg = (key) => {
-                const vals = rows.map(r => r[key]).filter(v => v != null);
+            const avgKeys = (keys) => {
+                const vals = rows.flatMap(r => keys.map(k => r[k])).filter(v => v != null);
                 if (!vals.length) return null;
                 return vals.reduce((a, b) => a + b, 0) / vals.length;
             };
-            const sum = (key) => {
-                const vals = rows.map(r => r[key]).filter(v => v != null);
-                return vals.reduce((a, b) => a + b, 0);
-            };
+            const sumKey = (key) => rows.map(r => r[key]).filter(v => v != null).reduce((a,b) => a+b, 0);
 
             document.getElementById('st-total').textContent   = state.meta?.total ?? rows.length;
-            document.getElementById('st-soil').textContent    = avg('soil_moisture')  != null ? avg('soil_moisture').toFixed(0) + ' %'   : '— %';
-            document.getElementById('st-temp').textContent    = avg('temperature')    != null ? avg('temperature').toFixed(1)   + ' °C'  : '— °C';
-            document.getElementById('st-airhum').textContent  = avg('air_humidity')   != null ? avg('air_humidity').toFixed(1)  + ' %'   : '— %';
-            document.getElementById('st-rain').textContent    = sum('rainfall') > 0 ? sum('rainfall').toFixed(1) + ' mm' : '— mm';
+            const avgSoil = avgKeys(['kelembaban_tanah_1','kelembaban_tanah_2','kelembaban_tanah_3']);
+            const avgTemp = avgKeys(['suhu_udara_1','suhu_udara_2','suhu_udara_3']);
+            const avgHum  = avgKeys(['kelembaban_udara_1','kelembaban_udara_2','kelembaban_udara_3']);
+            document.getElementById('st-soil').textContent   = avgSoil != null ? avgSoil.toFixed(1) + ' %'   : '— %';
+            document.getElementById('st-temp').textContent   = avgTemp != null ? avgTemp.toFixed(1) + ' °C'  : '— °C';
+            document.getElementById('st-airhum').textContent = avgHum  != null ? avgHum.toFixed(1)  + ' %'   : '— %';
+            document.getElementById('st-rain').textContent   = sumKey('curah_hujan') > 0 ? sumKey('curah_hujan').toFixed(1) + ' mm' : '— mm';
         }
 
         /* ════════════════════════════════
@@ -673,7 +675,7 @@
             } catch (err) {
                 console.error(err);
                 document.getElementById('report-body').innerHTML = `
-                    <tr><td colspan="9"><div class="state-box">
+                    <tr><td colspan="15"><div class="state-box">
                         <div class="state-icon">⚠️</div>
                         <div class="state-title">Gagal memuat data</div>
                         <div class="state-sub">Periksa koneksi server dan coba lagi</div>
@@ -703,17 +705,23 @@
                     page++;
                 } while (page <= lastPage);
 
-                const headers = ['No','Waktu','Kelembaban Tanah (%)','Suhu Udara (°C)','Kelembaban Udara (%)','Tekanan Udara (hPa)','Curah Hujan (mm)','Suhu Tanah (°C)','Baterai (V)'];
+                const headers = ['No','Waktu','Kel.Tanah-1 (%)','Kel.Tanah-2 (%)','Kel.Tanah-3 (%)','Suhu Udara-1 (°C)','Suhu Udara-2 (°C)','Suhu Udara-3 (°C)','Kel.Udara-1 (%)','Kel.Udara-2 (%)','Kel.Udara-3 (%)','Tek.Udara-1 (hPa)','Tek.Udara-2 (hPa)','Tek.Udara-3 (hPa)','Curah Hujan (mm)'];
                 const rows = allRows.map((r, i) => [
                     i + 1,
                     r.created_at ? new Date(r.created_at).toLocaleString('id-ID') : '',
-                    r.soil_moisture  ?? '',
-                    r.temperature    != null ? Number(r.temperature).toFixed(1)    : '',
-                    r.air_humidity   != null ? Number(r.air_humidity).toFixed(1)   : '',
-                    r.air_pressure   != null ? Number(r.air_pressure).toFixed(1)   : '',
-                    r.rainfall       != null ? Number(r.rainfall).toFixed(1)       : '',
-                    r.soil_temperature != null ? Number(r.soil_temperature).toFixed(1) : '',
-                    r.battery        != null ? Number(r.battery).toFixed(2)        : '',
+                    r.kelembaban_tanah_1 != null ? Number(r.kelembaban_tanah_1).toFixed(1) : '',
+                    r.kelembaban_tanah_2 != null ? Number(r.kelembaban_tanah_2).toFixed(1) : '',
+                    r.kelembaban_tanah_3 != null ? Number(r.kelembaban_tanah_3).toFixed(1) : '',
+                    r.suhu_udara_1       != null ? Number(r.suhu_udara_1).toFixed(1)       : '',
+                    r.suhu_udara_2       != null ? Number(r.suhu_udara_2).toFixed(1)       : '',
+                    r.suhu_udara_3       != null ? Number(r.suhu_udara_3).toFixed(1)       : '',
+                    r.kelembaban_udara_1 != null ? Number(r.kelembaban_udara_1).toFixed(1) : '',
+                    r.kelembaban_udara_2 != null ? Number(r.kelembaban_udara_2).toFixed(1) : '',
+                    r.kelembaban_udara_3 != null ? Number(r.kelembaban_udara_3).toFixed(1) : '',
+                    r.tekanan_udara_1    != null ? Number(r.tekanan_udara_1).toFixed(1)    : '',
+                    r.tekanan_udara_2    != null ? Number(r.tekanan_udara_2).toFixed(1)    : '',
+                    r.tekanan_udara_3    != null ? Number(r.tekanan_udara_3).toFixed(1)    : '',
+                    r.curah_hujan        != null ? Number(r.curah_hujan).toFixed(1)        : '',
                 ].join(','));
 
                 const csv = [headers.join(','), ...rows].join('\n');
