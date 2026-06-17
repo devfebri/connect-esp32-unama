@@ -11,6 +11,8 @@ class SensorReading extends Model
         'soil_temperature',
         'soil_moisture',
         'air_humidity',
+        'air_pressure',
+        'rainfall',
         'battery',
     ];
 
@@ -19,6 +21,8 @@ class SensorReading extends Model
         'soil_temperature' => 'float',
         'soil_moisture' => 'integer',
         'air_humidity' => 'float',
+        'air_pressure' => 'float',
+        'rainfall' => 'float',
         'battery' => 'float',
     ];
 }

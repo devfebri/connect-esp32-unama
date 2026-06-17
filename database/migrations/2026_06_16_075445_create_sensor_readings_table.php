@@ -13,11 +13,19 @@ return new class extends Migration
     {
         Schema::create('sensor_readings', function (Blueprint $table) {
             $table->id();
-            $table->float('temperature')->nullable();
-            $table->float('soil_temperature')->nullable();
-            $table->unsignedInteger('soil_moisture')->nullable();
-            $table->float('air_humidity')->nullable();
-            $table->float('battery')->nullable();
+            $table->float('kelembaban_tanah_1')->nullable();
+            $table->float('kelembaban_tanah_2')->nullable();
+            $table->float('kelembaban_tanah_3')->nullable();
+            $table->float('kelembaban_udara_1')->nullable();
+            $table->float('kelembaban_udara_2')->nullable();
+            $table->float('kelembaban_udara_3')->nullable();
+            $table->float('suhu_udara_1')->nullable();
+            $table->float('suhu_udara_2')->nullable();
+            $table->float('suhu_udara_3')->nullable();
+            $table->float('tekanan_udara_1')->nullable();
+            $table->float('tekanan_udara_2')->nullable();
+            $table->float('tekanan_udara_3')->nullable();
+            $table->float('curah_hujan')->nullable();
             $table->timestamps();
         });
     }
