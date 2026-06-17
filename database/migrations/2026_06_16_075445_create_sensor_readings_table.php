@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('sensor_readings', function (Blueprint $table) {
             $table->id();
-            $table->float('kelembaban_tanah_1')->nullable();
-            $table->float('kelembaban_tanah_2')->nullable();
-            $table->float('kelembaban_tanah_3')->nullable();
+            $table->float('sensor_tanah_adc_1')->nullable();
+            $table->float('kelembaban_tanah_1')->nullable()->comment('satuannya %');
+            $table->float('sensor_tanah_adc_2')->nullable();
+            $table->float('kelembaban_tanah_2')->nullable()->comment('satuannya %');
+            $table->float('sensor_tanah_adc_3')->nullable();
+            $table->float('kelembaban_tanah_3')->nullable()->comment('satuannya %');
             $table->float('kelembaban_udara_1')->nullable();
             $table->float('kelembaban_udara_2')->nullable();
             $table->float('kelembaban_udara_3')->nullable();
