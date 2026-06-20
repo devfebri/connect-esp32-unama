@@ -29,7 +29,7 @@ return new class extends Migration
             $table->float('tekanan_udara_2')->nullable();
             $table->float('tekanan_udara_3')->nullable();
             $table->float('curah_hujan')->nullable();
-            $table->text('waktu_pembacaan')->nullable();
+            $table->dateTime('waktu_pembacaan', 0)->nullable();
             $table->timestamps();
         });
     }
