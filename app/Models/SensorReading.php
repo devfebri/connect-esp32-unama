@@ -23,7 +23,7 @@ class SensorReading extends Model
         'tekanan_udara_2',
         'tekanan_udara_3',
         'curah_hujan',
-        'created_at',
+        'waktu_pembacaan',
     ];
 
     protected $casts = [
@@ -43,6 +43,6 @@ class SensorReading extends Model
         'tekanan_udara_2' => 'float',
         'tekanan_udara_3' => 'float',
         'curah_hujan' => 'float',
-        'created_at' => 'datetime',
+
     ];
 }

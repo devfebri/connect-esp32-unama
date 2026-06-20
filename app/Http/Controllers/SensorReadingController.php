@@ -68,6 +68,7 @@ class SensorReadingController extends Controller
             'tekanan_udara_2' => ['nullable', 'numeric'],
             'tekanan_udara_3' => ['nullable', 'numeric'],
             'curah_hujan' => ['nullable', 'numeric'],
+            'waktu_pembacaan' => ['nullable', 'string'],
         ]);
 
         if (empty(array_filter($data, fn($value) => ! is_null($value)))) {
