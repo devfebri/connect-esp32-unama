@@ -7,6 +7,7 @@
     <title>Dashboard Monitoring Sensor – ESP32 UNAMA</title>
     <meta name="description"
         content="Dashboard monitoring real-time sensor lingkungan berbasis ESP32: kelembaban tanah, suhu udara, kelembaban udara, tekanan udara, dan curah hujan.">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1080,8 +1081,8 @@
 
     <script>
         /* ══════════════════════════════════════
-           FIELD MAP: card-id → {col, unit, dec, min, max}
-        ══════════════════════════════════════ */
+                       FIELD MAP: card-id → {col, unit, dec, min, max}
+                    ══════════════════════════════════════ */
         const FIELDS = {
             'kelembaban-tanah-1': {
                 col: 'kelembaban_tanah_1',
@@ -1260,7 +1261,35 @@
         }
 
         /* ══ OFFLINE STATUS ══ */
-        const OFFLINE_THRESHOLD_MS = 5 * 60 * 1000; // 1 minute (TESTING)
+        const OFFLINE_THRESHOLD_MS = 5 * 60 * 1000; // 5 menit
+        const TELEGRAM_COOLDOWN_MS = 30 * 60 * 1000; // 30 menit antara notifikasi
+
+        /**
+         * Kirim notifikasi Telegram (dengan cooldown agar tidak spam).
+         */
+        async function sendTelegramOfflineAlert(sinceStr, durStr) {
+            const lastSentKey = 'telegram_offline_last_sent';
+            const lastSent = parseInt(sessionStorage.getItem(lastSentKey) || '0', 10);
+            const now = Date.now();
+
+            // Jangan kirim lagi jika belum lewat cooldown
+            if (now - lastSent < TELEGRAM_COOLDOWN_MS) return;
+
+            try {
+                const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content || '';
+                await fetch('/api/telegram/notify-offline', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken,
+                    },
+                    body: JSON.stringify({ since: sinceStr, duration: durStr }),
+                });
+                sessionStorage.setItem(lastSentKey, String(now));
+            } catch (err) {
+                console.warn('Gagal mengirim notifikasi Telegram:', err);
+            }
+        }
 
         function checkOfflineStatus(lastTimestamp) {
             const banner = document.getElementById('offline-banner');
@@ -1298,6 +1327,10 @@
                 if (sinceEl) sinceEl.textContent = sinceStr;
                 if (durEl) durEl.textContent = '⏱ ' + durStr;
                 banner.classList.add('show');
+
+                // Kirim notifikasi ke Telegram (dengan cooldown 30 menit)
+                sendTelegramOfflineAlert(sinceStr, durStr);
+
             } else {
                 banner.classList.remove('show');
             }
