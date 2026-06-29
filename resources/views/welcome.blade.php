@@ -1260,7 +1260,7 @@
         }
 
         /* ══ OFFLINE STATUS ══ */
-        const OFFLINE_THRESHOLD_MS = 1 * 60 * 1000; // 1 minute (TESTING)
+        const OFFLINE_THRESHOLD_MS = 5 * 60 * 1000; // 1 minute (TESTING)
 
         function checkOfflineStatus(lastTimestamp) {
             const banner = document.getElementById('offline-banner');
