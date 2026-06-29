@@ -69,6 +69,7 @@ class SensorReadingController extends Controller
             'tekanan_udara_3' => ['nullable', 'numeric'],
             'curah_hujan' => ['nullable', 'numeric'],
             'waktu_pembacaan' => ['nullable', 'string'],
+            'backup_status' => ['nullable', 'integer'],
         ]);
 
         if (empty(array_filter($data, fn($value) => ! is_null($value)))) {
@@ -126,7 +127,8 @@ class SensorReadingController extends Controller
             $tekanan_udara_2 = $row[13];
             $tekanan_udara_3 = $row[14];
             $curah_hujan = $row[15];
-            $created_at = $row[16];
+            $waktu_pembacaan = $row[16];
+            $backup_status = $row[17];
 
             $data[] = [
                 'sensor_tanah_adc_1' => $sensor_tanah_adc_1,
@@ -145,7 +147,9 @@ class SensorReadingController extends Controller
                 'tekanan_udara_2' => $tekanan_udara_2,
                 'tekanan_udara_3' => $tekanan_udara_3,
                 'curah_hujan' => $curah_hujan,
-                'created_at' => $created_at,
+                'backup_status' => $backup_status,
+                'waktu_pembacaan' => $waktu_pembacaan,
+                'created_at' => now(),
                 'updated_at' => now(),
             ];
         }

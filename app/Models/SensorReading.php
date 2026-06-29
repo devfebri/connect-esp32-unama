@@ -24,6 +24,7 @@ class SensorReading extends Model
         'tekanan_udara_3',
         'curah_hujan',
         'waktu_pembacaan',
+        'backup_status'
     ];
 
     protected $casts = [
