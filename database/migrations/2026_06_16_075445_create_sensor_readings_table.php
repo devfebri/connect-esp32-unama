@@ -36,8 +36,8 @@ return new class extends Migration
 
             //curah hujan
             $table->float('curah_hujan')->nullable();
-            $table->dateTime('waktu_pembacaan', 0)->nullable();
             $table->tinyInteger('backup_status')->default(0)->comment('1: aktif, 0: nonaktif');
+            $table->dateTime('waktu_pembacaan', 0)->nullable();
             $table->timestamps();
         });
     }
