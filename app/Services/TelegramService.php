@@ -72,8 +72,8 @@ class TelegramService
             '',
             '📡 Sistem monitoring ESP32 UNAMA mendeteksi bahwa alat sensor tidak mengirim data.',
             '',
-            '⏰ <b>Terakhir aktif :</b> '.$sinceFormatted,
-            '⌛ <b>Sudah offline :</b> '.$durationFormatted,
+            '⏰ <b>Terakhir aktif :</b> ' . $sinceFormatted,
+            '⌛ <b>Sudah offline :</b> ' . $durationFormatted,
             '',
             '⚠️ <b>Kemungkinan penyebab:</b>',
             '  • Perangkat ESP32 mati atau tidak merespons',
@@ -82,7 +82,7 @@ class TelegramService
             '',
             '🔧 Segera periksa kondisi alat di lapangan.',
             '',
-            '— <i>Sistem Monitoring Sensor Lingkungan UNAMA</i>',
+            '— <i>Sistem Monitoring Sensor Lingkungan Perkebunan Nanas</i>',
         ]);
 
         return $this->sendMessage($message);
