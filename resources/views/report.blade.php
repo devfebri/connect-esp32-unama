@@ -793,7 +793,7 @@
                     <thead>
                         <tr>
                             <th class="td-no" data-sort="" rowspan="2">#</th>
-                            <th data-sort="created_at" class="sort-desc" rowspan="2">Waktu <i
+                            <th data-sort="waktu_pembacaan" class="sort-desc" rowspan="2">Waktu <i
                                     class="bi bi-arrow-down sort-icon"></i></th>
                             <th colspan="3" style="color:var(--green);text-align:center"><i
                                     class="bi bi-moisture"></i> Kelembaban Tanah (%)</th>
@@ -866,7 +866,7 @@
             perPage: 25,
             dateFrom: '',
             dateTo: '',
-            sortCol: 'created_at',
+            sortCol: 'waktu_pembacaan',
             sortDir: 'desc',
             meta: null,
             allRows: [], // holds current page rows for CSV
@@ -960,7 +960,7 @@
             body.innerHTML = sorted.map((r, i) => `
                 <tr>
                     <td class="td-no">${offset + i + 1}</td>
-                    <td class="td-time">${formatDatetime(r.created_at)}</td>
+                    <td class="td-time">${formatDatetime(r.waktu_pembacaan)}</td>
                     <td>${f(r.kelembaban_tanah_1, 1, '%',   'val-green')}</td>
                     <td>${f(r.kelembaban_tanah_2, 1, '%',   'val-green')}</td>
                     <td>${f(r.kelembaban_tanah_3, 1, '%',   'val-green')}</td>
@@ -1139,7 +1139,7 @@
                 ];
                 const rows = allRows.map((r, i) => [
                     i + 1,
-                    r.created_at ? new Date(r.created_at).toLocaleString('id-ID') : '',
+                    r.waktu_pembacaan ? new Date(r.waktu_pembacaan).toLocaleString('id-ID') : '',
                     r.kelembaban_tanah_1 != null ? Number(r.kelembaban_tanah_1).toFixed(1) : '',
                     r.kelembaban_tanah_2 != null ? Number(r.kelembaban_tanah_2).toFixed(1) : '',
                     r.kelembaban_tanah_3 != null ? Number(r.kelembaban_tanah_3).toFixed(1) : '',
