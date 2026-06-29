@@ -527,6 +527,89 @@
             color: var(--text-secondary);
         }
 
+        /* ── OFFLINE BANNER ── */
+        .offline-banner {
+            display: none;
+            position: sticky;
+            top: 61px; /* just below topbar */
+            z-index: 90;
+            width: 100%;
+            padding: .85rem 2rem;
+            background: linear-gradient(135deg, rgba(30, 10, 10, .97), rgba(60, 15, 15, .97));
+            border-bottom: 1px solid rgba(239, 68, 68, .35);
+            backdrop-filter: blur(16px);
+            animation: banner-in .4s cubic-bezier(.34,1.56,.64,1) both;
+        }
+
+        .offline-banner.show {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        @keyframes banner-in {
+            from { opacity: 0; transform: translateY(-12px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .offline-icon {
+            font-size: 1.6rem;
+            flex-shrink: 0;
+            animation: wobble 2.5s ease-in-out infinite;
+        }
+
+        @keyframes wobble {
+            0%, 100% { transform: rotate(0deg); }
+            20%       { transform: rotate(-8deg); }
+            40%       { transform: rotate(8deg); }
+            60%       { transform: rotate(-5deg); }
+            80%       { transform: rotate(5deg); }
+        }
+
+        .offline-body {
+            flex: 1;
+        }
+
+        .offline-title {
+            font-size: .92rem;
+            font-weight: 700;
+            color: #fca5a5;
+            margin-bottom: .18rem;
+        }
+
+        .offline-sub {
+            font-size: .78rem;
+            color: #f87171;
+            opacity: .85;
+        }
+
+        .offline-duration {
+            font-size: .75rem;
+            font-weight: 600;
+            padding: .28rem .8rem;
+            border-radius: 999px;
+            background: rgba(239, 68, 68, .15);
+            border: 1px solid rgba(239, 68, 68, .3);
+            color: #fca5a5;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .offline-pulse {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ef4444;
+            flex-shrink: 0;
+            animation: offline-blink 1.2s ease-in-out infinite;
+        }
+
+        @keyframes offline-blink {
+            0%, 100% { opacity: 1; box-shadow: 0 0 6px #ef4444; }
+            50%       { opacity: .25; box-shadow: none; }
+        }
+
         /* responsive */
         @media(max-width:960px) {
             .three-col {
@@ -599,6 +682,17 @@
             </button>
         </div>
     </nav>
+
+    <!-- ── OFFLINE BANNER ── -->
+    <div class="offline-banner" id="offline-banner">
+        <div class="offline-pulse"></div>
+        <div class="offline-icon">📡</div>
+        <div class="offline-body">
+            <div class="offline-title">Sinyal Terputus — Alat Tidak Merespons</div>
+            <div class="offline-sub">Data sensor belum masuk sejak <strong id="offline-since">—</strong>. Kemungkinan alat mati, koneksi internet terputus, atau terjadi gangguan pada perangkat ESP32. Silakan periksa kondisi lapangan.</div>
+        </div>
+        <div class="offline-duration" id="offline-duration">—</div>
+    </div>
 
     <!-- ── HERO ── -->
     <header class="hero">
@@ -1114,14 +1208,57 @@
                 updateSummary(latest);
 
                 // last time
-                document.getElementById('last-time').textContent =
-                    new Date(latest.created_at).toLocaleString('id-ID', {
-                        dateStyle: 'medium',
-                        timeStyle: 'medium'
-                    });
+                const lastTs = latest.waktu_pembacaan || latest.created_at || null;
+                document.getElementById('last-time').textContent = lastTs
+                    ? new Date(lastTs).toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'medium' })
+                    : '—';
+
+                // offline check
+                checkOfflineStatus(lastTs);
 
             } catch (err) {
                 console.error('Gagal memuat data sensor:', err);
+            }
+        }
+
+        /* ══ OFFLINE STATUS ══ */
+        const OFFLINE_THRESHOLD_MS = 30 * 60 * 1000; // 30 minutes
+
+        function checkOfflineStatus(lastTimestamp) {
+            const banner = document.getElementById('offline-banner');
+            const sinceEl = document.getElementById('offline-since');
+            const durEl = document.getElementById('offline-duration');
+
+            if (!lastTimestamp) {
+                banner.classList.remove('show');
+                return;
+            }
+
+            const diff = Date.now() - new Date(lastTimestamp).getTime();
+
+            if (diff >= OFFLINE_THRESHOLD_MS) {
+                // format how long ago
+                const mins = Math.floor(diff / 60000);
+                const hrs  = Math.floor(mins / 60);
+                const rm   = mins % 60;
+
+                let durStr;
+                if (hrs > 0) {
+                    durStr = `${hrs} jam ${rm > 0 ? rm + ' menit' : ''} yang lalu`;
+                } else {
+                    durStr = `${mins} menit yang lalu`;
+                }
+
+                const sinceStr = new Date(lastTimestamp).toLocaleString('id-ID', {
+                    day: '2-digit', month: 'short', year: 'numeric',
+                    hour: '2-digit', minute: '2-digit'
+                });
+
+                if (sinceEl) sinceEl.textContent = sinceStr;
+                if (durEl)   durEl.textContent   = '⏱ ' + durStr;
+                banner.classList.add('show');
+            } else {
+                banner.classList.remove('show');
             }
         }
 
