@@ -123,4 +123,16 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Scheduler Token
+    |--------------------------------------------------------------------------
+    |
+    | Token rahasia untuk mengamankan endpoint cron job eksternal.
+    | Atur nilai ini di file .env dengan key SCHEDULER_TOKEN.
+    |
+    */
+
+    'scheduler_token' => env('SCHEDULER_TOKEN'),
+
 ];
