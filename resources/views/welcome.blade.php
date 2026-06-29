@@ -531,14 +531,15 @@
         .offline-banner {
             display: none;
             position: sticky;
-            top: 61px; /* just below topbar */
+            top: 61px;
+            /* just below topbar */
             z-index: 90;
             width: 100%;
             padding: .85rem 2rem;
             background: linear-gradient(135deg, rgba(30, 10, 10, .97), rgba(60, 15, 15, .97));
             border-bottom: 1px solid rgba(239, 68, 68, .35);
             backdrop-filter: blur(16px);
-            animation: banner-in .4s cubic-bezier(.34,1.56,.64,1) both;
+            animation: banner-in .4s cubic-bezier(.34, 1.56, .64, 1) both;
         }
 
         .offline-banner.show {
@@ -549,8 +550,15 @@
         }
 
         @keyframes banner-in {
-            from { opacity: 0; transform: translateY(-12px); }
-            to   { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(-12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .offline-icon {
@@ -560,11 +568,27 @@
         }
 
         @keyframes wobble {
-            0%, 100% { transform: rotate(0deg); }
-            20%       { transform: rotate(-8deg); }
-            40%       { transform: rotate(8deg); }
-            60%       { transform: rotate(-5deg); }
-            80%       { transform: rotate(5deg); }
+
+            0%,
+            100% {
+                transform: rotate(0deg);
+            }
+
+            20% {
+                transform: rotate(-8deg);
+            }
+
+            40% {
+                transform: rotate(8deg);
+            }
+
+            60% {
+                transform: rotate(-5deg);
+            }
+
+            80% {
+                transform: rotate(5deg);
+            }
         }
 
         .offline-body {
@@ -606,8 +630,17 @@
         }
 
         @keyframes offline-blink {
-            0%, 100% { opacity: 1; box-shadow: 0 0 6px #ef4444; }
-            50%       { opacity: .25; box-shadow: none; }
+
+            0%,
+            100% {
+                opacity: 1;
+                box-shadow: 0 0 6px #ef4444;
+            }
+
+            50% {
+                opacity: .25;
+                box-shadow: none;
+            }
         }
 
         /* responsive */
@@ -689,7 +722,9 @@
         <div class="offline-icon">📡</div>
         <div class="offline-body">
             <div class="offline-title">Sinyal Terputus — Alat Tidak Merespons</div>
-            <div class="offline-sub">Data sensor belum masuk sejak <strong id="offline-since">—</strong>. Kemungkinan alat mati, koneksi internet terputus, atau terjadi gangguan pada perangkat ESP32. Silakan periksa kondisi lapangan.</div>
+            <div class="offline-sub">Data sensor belum masuk sejak <strong id="offline-since">—</strong>. Kemungkinan
+                alat mati, koneksi internet terputus, atau terjadi gangguan pada perangkat ESP32. Silakan periksa
+                kondisi lapangan.</div>
         </div>
         <div class="offline-duration" id="offline-duration">—</div>
     </div>
@@ -1045,8 +1080,8 @@
 
     <script>
         /* ══════════════════════════════════════
-       FIELD MAP: card-id → {col, unit, dec, min, max}
-    ══════════════════════════════════════ */
+           FIELD MAP: card-id → {col, unit, dec, min, max}
+        ══════════════════════════════════════ */
         const FIELDS = {
             'kelembaban-tanah-1': {
                 col: 'kelembaban_tanah_1',
@@ -1209,9 +1244,12 @@
 
                 // last time
                 const lastTs = latest.waktu_pembacaan || latest.created_at || null;
-                document.getElementById('last-time').textContent = lastTs
-                    ? new Date(lastTs).toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'medium' })
-                    : '—';
+                document.getElementById('last-time').textContent = lastTs ?
+                    new Date(lastTs).toLocaleString('id-ID', {
+                        dateStyle: 'medium',
+                        timeStyle: 'medium'
+                    }) :
+                    '—';
 
                 // offline check
                 checkOfflineStatus(lastTs);
@@ -1222,7 +1260,7 @@
         }
 
         /* ══ OFFLINE STATUS ══ */
-        const OFFLINE_THRESHOLD_MS = 30 * 60 * 1000; // 30 minutes
+        const OFFLINE_THRESHOLD_MS = 1 * 60 * 1000; // 1 minute (TESTING)
 
         function checkOfflineStatus(lastTimestamp) {
             const banner = document.getElementById('offline-banner');
@@ -1239,8 +1277,8 @@
             if (diff >= OFFLINE_THRESHOLD_MS) {
                 // format how long ago
                 const mins = Math.floor(diff / 60000);
-                const hrs  = Math.floor(mins / 60);
-                const rm   = mins % 60;
+                const hrs = Math.floor(mins / 60);
+                const rm = mins % 60;
 
                 let durStr;
                 if (hrs > 0) {
@@ -1250,12 +1288,15 @@
                 }
 
                 const sinceStr = new Date(lastTimestamp).toLocaleString('id-ID', {
-                    day: '2-digit', month: 'short', year: 'numeric',
-                    hour: '2-digit', minute: '2-digit'
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
                 });
 
                 if (sinceEl) sinceEl.textContent = sinceStr;
-                if (durEl)   durEl.textContent   = '⏱ ' + durStr;
+                if (durEl) durEl.textContent = '⏱ ' + durStr;
                 banner.classList.add('show');
             } else {
                 banner.classList.remove('show');
