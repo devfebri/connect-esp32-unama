@@ -20,9 +20,9 @@ class CheckSensorOffline extends Command
     private const OFFLINE_THRESHOLD_MINUTES = 5;
 
     /**
-     * Cooldown antar notifikasi: jangan kirim lagi dalam 30 menit.
+     * Cooldown antar notifikasi: jangan kirim lagi dalam 60 menit (1 jam).
      */
-    private const NOTIFY_COOLDOWN_MINUTES = 30;
+    private const NOTIFY_COOLDOWN_MINUTES = 60;
 
     private const CACHE_KEY = 'telegram_offline_notified_at';
 
@@ -68,7 +68,7 @@ class CheckSensorOffline extends Command
         $sent = $telegram->sendOfflineAlert($sinceFormatted, $durationFormatted);
 
         if ($sent) {
-            Cache::put(self::CACHE_KEY, now(), now()->addMinutes(self::NOTIFY_COOLDOWN_MINUTES + 5));
+            Cache::put(self::CACHE_KEY, now(), now()->addMinutes(self::NOTIFY_COOLDOWN_MINUTES + 10));
             $this->info("✅ Notifikasi Telegram terkirim. Sensor offline sejak {$sinceFormatted} ({$durationFormatted}).");
         } else {
             $this->error('❌ Gagal mengirim notifikasi Telegram. Cek log untuk detail.');
