@@ -16,6 +16,9 @@ Route::post('/esp32/import-csv', [SensorReadingController::class, 'import']);
 // Notifikasi Telegram — dibatasi 1 request per 10 menit per IP agar tidak spam
 Route::middleware('throttle:6,10')->post('/telegram/notify-offline', [TelegramController::class, 'notifyOffline']);
 
+// Webhook Telegram Bot — menerima update dari Telegram (perintah /status, dll.)
+Route::post('/telegram/webhook', [TelegramController::class, 'handleWebhook']);
+
 // Endpoint untuk cron job eksternal (cron-job.org)
 // Aman dengan token rahasia di query string: ?token=...
 Route::get('/cron/check-sensor', function (Request $request) {
